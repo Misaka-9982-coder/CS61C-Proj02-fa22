@@ -43,7 +43,7 @@ case "${1}" in
     bash tools/download_tools.sh venus
     ;;
   all)
-    "${python_exec}" unittests.py -v unittests.py -- "${@:2}"
+    "${python_exec}" unittests.py -v -- "${@:2}"
     ;;
   coverage)
     "${python_exec}" studenttests.py -- "${@:2}"
