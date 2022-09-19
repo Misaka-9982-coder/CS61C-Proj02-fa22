@@ -597,7 +597,7 @@ class AssemblyTest:
     def array(self, data: List[int]) -> ArrayData:
         name = f"m{self._array_count}"
         self._array_count += 1
-        self.data += [f"{name}: .word " + " ".join((str(v) for v in data))]
+        self.data += [".align 4", f"{name}: .word " + " ".join((str(v) for v in data))]
         a = ArrayData(name, data)
         self._arrays[a.name] = a
         return a
