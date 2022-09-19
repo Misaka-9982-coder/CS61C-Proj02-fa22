@@ -452,10 +452,10 @@ class AssemblyTest:
         args: Optional[List[str]] = None,
         fail: str = "",
         verbose: bool = False,
-        print_stdout: bool = False,
+        always_print_stdout: bool = False,
     ):
-        if "-mc" in _venus_default_args or "-mcv" in _venus_default_args:
-            print_stdout = True
+        if "-mcv" in _venus_default_args:
+            always_print_stdout = True
 
         """Assembles the test and runs it through the venus simulator."""
         assert (
@@ -547,14 +547,26 @@ class AssemblyTest:
         _process_coverage(coverage, self._assembly)
         self._program_executed = True
         self._std_out = r.stdout.decode("UTF-8")
-        if r.returncode != code:
+        venus_stderr_clean = (
+            r.stderr.decode("UTF-8").replace("Found 0 warnings!", "").strip()
+        )
+        if r.returncode != code or venus_stderr_clean != "":
             self._print_failure(r, code)
-        elif print_stdout:
-            print()
-            print(self._std_out)
+        elif always_print_stdout:
+            print(
+                "stdout:\n"
+                + r.stdout.decode("UTF-8")
+                + "\n\nstderr:\n"
+                + r.stderr.decode("UTF-8")
+            )
 
     def _print_failure(self, r, expected_code):
-        venus_out = r.stdout.decode("UTF-8") + "\n" + r.stderr.decode("UTF-8")
+        venus_out = (
+            "stdout:\n"
+            + r.stdout.decode("UTF-8")
+            + "\n\nstderr:\n"
+            + r.stderr.decode("UTF-8")
+        )
         if expected_code == 0:
             self._test.fail(
                 f"Unexpected results from venus (exited with {r.returncode}):\n{venus_out}"

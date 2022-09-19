@@ -7,7 +7,7 @@ proj_dir_path = Path(__file__).parent.parent
 
 starter_file_hashes = {
     "convert.py": "a38bce8aa5e6297812426f843e23023f",
-    "framework.py": "cb41bf5422dcbfa3620cd602f4e33dcb",
+    "framework.py": "746fa380db968215f12239689b7f1215",
     "src/utils.s": "3a55bc146f1483a91089e42b2ece50b1",
     "tests/chain-1/batch0-input.bin": "ce7224a6338c437d7a7a76ced7558f4d",
     "tests/chain-1/batch0-m0.bin": "718df00fe5047410dd1c5f40405c1286",
