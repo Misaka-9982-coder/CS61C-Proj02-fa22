@@ -27,7 +27,7 @@
 .globl compare_int_array
 
 # Calling Convention Functions
-.globl randomizeCalleeSavedRegs, randomizeCalleeSavedRegsBesidesA0, randomizeCallerSavedRegs, checkCallerSavedRegs, randomizeCallerSavedRegs2, checkCallerSavedRegs2
+.globl randomizeCallerSavedRegs, randomizeCallerSavedRegsBesidesA0, randomizeCalleeSavedRegs, checkCalleeSavedRegs, randomizeCalleeSavedRegs2, checkCalleeSavedRegs2
 
 .data
 static_space_for_sp: .word 0 0 0
@@ -482,7 +482,7 @@ end:
 
 # Shuffling registers to test calling convention
 
-randomizeCalleeSavedRegs:
+randomizeCallerSavedRegs:
     li t0 0x61C0061C
     li t1 0x61C1161C
     li t2 0x61C2261C
@@ -502,7 +502,7 @@ randomizeCalleeSavedRegs:
 
     jr ra
 
-randomizeCalleeSavedRegsBesidesA0:
+randomizeCallerSavedRegsBesidesA0:
     li t0 0x61C0061C
     li t1 0x61C1161C
     li t2 0x61C2261C
@@ -521,7 +521,7 @@ randomizeCalleeSavedRegsBesidesA0:
 
     jr ra
 
-randomizeCallerSavedRegs:
+randomizeCalleeSavedRegs:
     addi sp sp -48
     sw s0 0(sp)
     sw s1 4(sp)
@@ -553,7 +553,7 @@ randomizeCallerSavedRegs:
 
     jr ra
 
-checkCallerSavedRegs:
+checkCalleeSavedRegs:
     li t0, 0x61D0061D
     bne s0, t0, savereg_error
     li t0, 0x61D1161D
@@ -597,7 +597,7 @@ checkCallerSavedRegs:
     addi sp sp 48
     jr ra
 
-randomizeCallerSavedRegs2:
+randomizeCalleeSavedRegs2:
     addi sp sp -48
     sw s0 0(sp)
     sw s1 4(sp)
@@ -629,7 +629,7 @@ randomizeCallerSavedRegs2:
 
     jr ra
 
-checkCallerSavedRegs2:
+checkCalleeSavedRegs2:
     li t0, 0x61D0061D
     bne s0, t0, savereg_error
     li t0, 0x61D1161D
