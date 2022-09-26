@@ -567,13 +567,13 @@ class AssemblyTest:
             + "\n\nstderr:\n"
             + r.stderr.decode("UTF-8")
         )
-        if expected_code == 0:
+        if expected_code != r.returncode:
             self._test.fail(
-                f"Unexpected results from venus (exited with {r.returncode}):\n{venus_out}"
+                f"Venus returned exit code {r.returncode} not {expected_code}.\n{venus_out}"
             )
         else:
             self._test.fail(
-                f"Venus returned exit code {r.returncode} not {expected_code}.\n{venus_out}"
+                f"Unexpected results from venus (exited with {r.returncode}).\n{venus_out}"
             )
 
     def _make_lbl(self, prefix: str) -> str:
