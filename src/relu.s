@@ -14,23 +14,40 @@
 # ==============================================================================
 relu:
     # Prologue
+    li t0, 1
+    bge a1, t0, normal
+    li a0, 36
+    j exit
 
+normal:
+    addi sp, sp, -8
+    sw ra, 0(sp)
+    sw s0, 4(sp)
+
+    
+    li t0, 0
 
 loop_start:
+    bge t0, a1, loop_end
 
+    slli s0, t0, 2
+    add t1, a0, s0
+    lw t2, 0(t1)
 
-
-
-
-
+    bge t2, zero, loop_continue
+    add t2, x0, x0
+    sw t2, 0(t1)
 
 
 loop_continue:
 
-
+    addi t0, t0, 1
+    jal loop_start
 
 loop_end:
-
+    lw ra, 0(sp)
+    lw s0, 4(sp)
+    addi sp, sp, 8
 
     # Epilogue
 
