@@ -64,7 +64,8 @@ class TestAbsLoss(unittest.TestCase):
         t.execute()
 
     # Add other test cases if neccesary
-    
+
+
     def test_length_1(self):
         t = AssemblyTest(self, "../coverage-src/abs_loss.s")
 
@@ -92,7 +93,8 @@ class TestAbsLoss(unittest.TestCase):
         t.check_scalar("a0", 0)
         # generate the `assembly/TestAbsLoss_test_simple.s` file and run it through venus
         t.execute()
-        
+
+
     def test_exception(self):
         t = AssemblyTest(self, "../coverage-src/abs_loss.s")
 
