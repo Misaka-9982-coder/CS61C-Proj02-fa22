@@ -49,15 +49,15 @@ loop_start:
 
     mul t2, t0, a3
     slli s0, t2, 2
-    add t3, a0, s0      # cur_0 = t3 = &arr0[stride]
-    lw t3, 0(t3)        # cur_0 = t3 = arr0[stride]
+    add t3, a0, s0      # cur_0 = t3 = &arr0[stride * cnt]
+    lw t3, 0(t3)        # cur_0 = t3 =  arr0[stride * cnt]
 
     mul t2, t0, a4
     slli s0, t2, 2
-    add t4, a1, s0      # cur_1 = t4 = &arr1[stride]
-    lw t4, 0(t4)        # cur_1 = t4 = arr1[stride]
+    add t4, a1, s0      # cur_1 = t4 = &arr1[stride * cnt]
+    lw t4, 0(t4)        # cur_1 = t4 =  arr1[stride * cnt]
 
-    mul t5, t3, t4      # tmp = t5 = t3 * t4
+    mul t5, t3, t4      # tmp = t5 = t3 * t4 = cur_0 * cur_1
     add t1, t1, t5      # sum = sum + tmp
 
     addi t0, t0, 1      # cnt ++ 
