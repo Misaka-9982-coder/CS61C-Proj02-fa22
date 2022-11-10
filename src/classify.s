@@ -213,7 +213,52 @@ classify:
 # ==============================================================================
 #   2. Compute h = matmul(m0, input)
 # ==============================================================================
-    
+    addi sp, sp, -20
+    sw a0, 0(sp)
+    sw a1, 4(sp)
+    sw a2, 8(sp)
+
+    lw a1, 0(s1)        # load the m0's row number
+    lw a5, 0(s8)        # load the input's column number
+
+##############################################################
+#   2.1 Allocate the memory for the h
+##############################################################
+    mul t0, a1, a5
+    sw t0, 12(sp)       # number of the elements
+    li t1, 4
+    mul t0, t0, t1
+
+    ebreak
+
+    mv a0, t0
+    jal malloc
+    beq a0, zero, malloc_error
+
+    mv t0, a0           # t0 store the address of h
+##############################################################
+
+    mv a0, s0           # a0 point to m0's address
+    lw a1, 0(s1)        # load the row number
+    lw a2, 0(s2)        # load the column number
+
+    mv a3, s6           # a0 point to input's address
+    lw a4, 0(s7)        # load the row number
+    lw a5, 0(s8)        # load the column number
+
+    mv a6, t0
+    sw t0, 16(sp)
+
+    jal matmul
+
+    ebreak
+
+    lw a0, 0(sp)
+    lw a1, 4(sp)
+    lw a2, 8(sp)
+    lw t1, 12(sp)       # the number of the elements
+    lw t0, 16(sp)       # the address of h
+    addi sp, sp, 20
 # ==============================================================================
 
 
