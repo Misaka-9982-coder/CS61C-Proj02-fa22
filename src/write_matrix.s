@@ -44,22 +44,23 @@ write_matrix:
     sw a3, 8(sp)
 
     addi a1, zero, 1
+
     jal fopen
+
+    addi t0, zero, -1
+    beq a0, t0, fopen_error
 
     lw a1, 0(sp)
     lw a2, 4(sp)
     lw a3, 8(sp)
     addi sp, sp, 12
-
-    addi t0, zero, -1
-    beq a0, t0, fopen_error
 # ==============================================================================
 
-    ebreak
+
 # ==============================================================================
 #   2.1 Store the number of rows and columns to the memory. 
 # ==============================================================================
-    addi sp, sp, -24
+    addi sp, sp, -20
     sw a0, 0(sp)
     sw a1, 4(sp)
     sw a2, 8(sp)
@@ -77,15 +78,13 @@ write_matrix:
     jal malloc
     beq a0, zero, malloc_error
     mv t2, a0
-    sw t2, 20(sp)
 
     lw a0, 0(sp)
     lw a1, 4(sp)
     lw a2, 8(sp)
     lw a3, 12(sp)
     lw t1, 16(sp)
-    lw t2, 20(sp)
-    addi sp, sp, 24
+    addi sp, sp, 20
 
     sw a2, 0(t1)
     sw a3, 0(t2)
@@ -103,30 +102,30 @@ write_matrix:
     sw t1, 16(sp)
     sw t2, 20(sp)
 
-    ebreak
+    ebreak      # number of row
 
     mv a1, t1
-    addi a2, zero, 1
-    addi a3, zero, 4
+    li a2, 1
+    li a3, 4
     jal fwrite
 
     ebreak
 
-    addi a2, zero, 1
+    li a2, 1
     bne a0, a2, fwrite_error
 
-    ebreak
+    ebreak      # number of column
 
     lw a0, 0(sp)
     lw t2, 16(sp)
     mv a1, t2
-    addi a2, zero, 1
-    addi a3, zero, 4
+    li a2, 1
+    li a3, 4
     jal fwrite
 
     ebreak
 
-    addi a2, zero, 1
+    li a2, 1
     bne a0, a2, fwrite_error
 
     lw a0, 0(sp)
@@ -138,7 +137,7 @@ write_matrix:
     addi sp, sp, 24
 # ==============================================================================
 
-    ebreak
+
 # ==============================================================================
 #   3. Write the data to the file.
 # ==============================================================================
@@ -151,7 +150,7 @@ write_matrix:
     mul t0, a2, a3
     sw t0, 16(sp)
     mv a2, t0
-    addi a3, zero, 4
+    li a3, 4
     jal fwrite
     lw t0, 16(sp)
     bne a0, t0, fwrite_error
@@ -163,7 +162,7 @@ write_matrix:
     addi sp, sp, 20
 # ==============================================================================
 
-    ebreak
+
 # ==============================================================================
 #   4. Close the file.
 # ==============================================================================

@@ -86,7 +86,6 @@ classify:
     mv t2, a0                   # use the t2 to store the address of column
     sw t2, 20(sp)
 
-    
 
     lw t0, 12(sp)
     lw t1, 16(sp)
@@ -100,8 +99,6 @@ classify:
     lw s1, 16(sp)               # use the s1 to store the row number address
     lw s2, 20(sp)               # use the s2 to store the column number address
 
-
-    
 
     lw a0, 0(sp)
     lw a1, 4(sp)
@@ -136,7 +133,6 @@ classify:
     mv t2, a0                   # use the t2 to store the address of column
     sw t2, 20(sp)
 
-    
 
     lw t0, 12(sp)
     lw t1, 16(sp)
@@ -150,8 +146,6 @@ classify:
     lw s4, 16(sp)               # use the s4 to store the row number address
     lw s5, 20(sp)               # use the s5 to store the column number address
 
-
-    
 
     lw a0, 0(sp)
     lw a1, 4(sp)
@@ -186,7 +180,6 @@ classify:
     mv t2, a0                   # use the t2 to store the address of column
     sw t2, 20(sp)
 
-    
 
     lw t0, 12(sp)
     lw t1, 16(sp)
@@ -200,8 +193,6 @@ classify:
     lw s7, 16(sp)               # use the s7 to store the row number address
     lw s8, 20(sp)               # use the s8 to store the column number address
 
-
-    
 
     lw a0, 0(sp)
     lw a1, 4(sp)
@@ -229,7 +220,6 @@ classify:
     li t1, 4
     mul t0, t0, t1
 
-    
 
     mv a0, t0
     jal malloc
@@ -251,7 +241,6 @@ classify:
 
     jal matmul
 
-    
 
     lw a0, 0(sp)
     lw a1, 4(sp)
@@ -276,7 +265,6 @@ classify:
     mv a1, t1
     jal relu
 
-    
 
     lw a0, 0(sp)
     lw a1, 4(sp)
@@ -308,7 +296,6 @@ classify:
     li t3, 4
     mul t2, t2, t3
 
-    
 
     mv a0, t2
     jal malloc
@@ -331,7 +318,6 @@ classify:
 
     jal matmul
 
-    
 
     lw a0, 0(sp)
     lw a1, 4(sp)
@@ -357,11 +343,13 @@ classify:
     sw t3, 24(sp)
 
     lw t3, 16(a1)                # a1[4] is the filepath string of output file
-    
+
     mv a0, t3
     mv a1, t2
     lw a2, 0(s4)
     lw a3, 0(s8)
+
+    ebreak
 
     jal write_matrix
 
@@ -397,7 +385,7 @@ classify:
 #   5.2 If enabled, print argmax(o) and newline
 # ==============================================================================
     lw a2, 8(sp)
-    
+
     bne a2, zero, not_print
 
     jal print_int
