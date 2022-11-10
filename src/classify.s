@@ -113,7 +113,50 @@ classify:
 # ==============================================================================
 #   1.2 Read pretrained m1
 # ==============================================================================
-    
+    addi sp, sp, -24
+    sw a0, 0(sp)
+    sw a1, 4(sp)
+    sw a2, 8(sp)
+
+    lw t0, 8(a1)                # a1[2] is the filepath string of m1
+    sw t0, 12(sp)
+
+    addi t1, zero, 4
+    add a0, t1, zero
+    jal malloc
+    beq a0, zero, malloc_error
+    mv t1, a0                   # use the t1 to store the address of row
+
+    sw t1, 16(sp)
+
+    addi t2, zero, 4
+    add a0, t2, zero
+    jal malloc
+    beq a0, zero, malloc_error
+    mv t2, a0                   # use the t2 to store the address of column
+    sw t2, 20(sp)
+
+    ebreak
+
+    lw t0, 12(sp)
+    lw t1, 16(sp)
+
+    mv a0, t0
+    mv a1, t1
+    mv a2, t2
+
+    jal read_matrix
+    mv s3, a0                   # use the s3 to store the address of m0
+    lw s4, 16(sp)               # use the s4 to store the row number address
+    lw s5, 20(sp)               # use the s5 to store the column number address
+
+
+    ebreak
+
+    lw a0, 0(sp)
+    lw a1, 4(sp)
+    lw a2, 8(sp)
+    addi sp, sp, 24
 # ==============================================================================
 
 
