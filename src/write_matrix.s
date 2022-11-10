@@ -90,7 +90,7 @@ write_matrix:
     sw a3, 0(t2)
 # ==============================================================================
 
-    ebreak
+
 # ==============================================================================
 #   2.2 Write the number of rows and columns to the file. 
 # ==============================================================================
@@ -102,28 +102,25 @@ write_matrix:
     sw t1, 16(sp)
     sw t2, 20(sp)
 
-    ebreak      # number of row
 
     mv a1, t1
     li a2, 1
     li a3, 4
     jal fwrite
 
-    ebreak
 
     li a2, 1
     bne a0, a2, fwrite_error
 
-    ebreak      # number of column
 
     lw a0, 0(sp)
-    lw t2, 16(sp)
+    lw t2, 20(sp)
+
     mv a1, t2
     li a2, 1
     li a3, 4
     jal fwrite
 
-    ebreak
 
     li a2, 1
     bne a0, a2, fwrite_error
