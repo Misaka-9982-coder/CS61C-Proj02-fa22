@@ -86,7 +86,7 @@ classify:
     mv t2, a0                   # use the t2 to store the address of column
     sw t2, 20(sp)
 
-    ebreak
+    
 
     lw t0, 12(sp)
     lw t1, 16(sp)
@@ -101,7 +101,7 @@ classify:
     lw s2, 20(sp)               # use the s2 to store the column number address
 
 
-    ebreak
+    
 
     lw a0, 0(sp)
     lw a1, 4(sp)
@@ -136,7 +136,7 @@ classify:
     mv t2, a0                   # use the t2 to store the address of column
     sw t2, 20(sp)
 
-    ebreak
+    
 
     lw t0, 12(sp)
     lw t1, 16(sp)
@@ -151,7 +151,7 @@ classify:
     lw s5, 20(sp)               # use the s5 to store the column number address
 
 
-    ebreak
+    
 
     lw a0, 0(sp)
     lw a1, 4(sp)
@@ -186,7 +186,7 @@ classify:
     mv t2, a0                   # use the t2 to store the address of column
     sw t2, 20(sp)
 
-    ebreak
+    
 
     lw t0, 12(sp)
     lw t1, 16(sp)
@@ -201,7 +201,7 @@ classify:
     lw s8, 20(sp)               # use the s8 to store the column number address
 
 
-    ebreak
+    
 
     lw a0, 0(sp)
     lw a1, 4(sp)
@@ -229,7 +229,7 @@ classify:
     li t1, 4
     mul t0, t0, t1
 
-    ebreak
+    
 
     mv a0, t0
     jal malloc
@@ -251,7 +251,7 @@ classify:
 
     jal matmul
 
-    ebreak
+    
 
     lw a0, 0(sp)
     lw a1, 4(sp)
@@ -276,7 +276,7 @@ classify:
     mv a1, t1
     jal relu
 
-    ebreak
+    
 
     lw a0, 0(sp)
     lw a1, 4(sp)
@@ -308,7 +308,7 @@ classify:
     li t3, 4
     mul t2, t2, t3
 
-    ebreak
+    
 
     mv a0, t2
     jal malloc
@@ -331,7 +331,7 @@ classify:
 
     jal matmul
 
-    ebreak
+    
 
     lw a0, 0(sp)
     lw a1, 4(sp)
@@ -409,13 +409,41 @@ not_print:
     lw a1, 4(sp)
     lw a2, 8(sp)
     lw t0, 12(sp)
+
+    mv a0, t0
+    jal free
+
     lw t1, 16(sp)
     lw t2, 20(sp)
+
+    mv a0, t2
+    jal free
+
     lw t3, 24(sp)
     addi sp, sp, 28
 # ==============================================================================
 
+# ==============================================================================
+#   6. Free any data you allocated with malloc.
+# ==============================================================================
+    mv a0, s1
+    jal free
 
+    mv a0, s2
+    jal free
+
+    mv a0, s4
+    jal free
+
+    mv a0, s5
+    jal free
+
+    mv a0, s7
+    jal free
+
+    mv a0, s8
+    jal free
+# ==============================================================================
 
     mv a0, s9
 
