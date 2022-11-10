@@ -290,7 +290,7 @@ classify:
 # ==============================================================================
 #   4. Compute o = matmul(m1, h)
 # ==============================================================================
-    addi sp, sp, -24
+    addi sp, sp, -28
     sw a0, 0(sp)
     sw a1, 4(sp)
     sw a2, 8(sp)
@@ -304,7 +304,7 @@ classify:
 #   4.1 Allocate the memory for the o
 ##############################################################
     mul t2, a1, a5
-    sw t2, 20(sp)       # number of the elements
+    sw t2, 24(sp)       # number of the elements
     li t3, 4
     mul t2, t2, t3
 
@@ -339,20 +339,22 @@ classify:
     lw t0, 12(sp)
     lw t1, 16(sp)
     lw t2, 20(sp)       # the address of o
-    addi sp, sp, 24
+    lw t3, 24(sp)       # the number of elements in o
+    addi sp, sp, 28
 # ==============================================================================
 
 #   m1 x h = m1 x m0 x input
 # ==============================================================================
 #   4.2 Write output matrix o
 # ==============================================================================
-    addi sp, sp, -24
+    addi sp, sp, -28
     sw a0, 0(sp)
     sw a1, 4(sp)
     sw a2, 8(sp)
     sw t0, 12(sp)
     sw t1, 16(sp)
     sw t2, 20(sp)
+    sw t3, 24(sp)
 
     lw t3, 16(a1)                # a1[4] is the filepath string of output file
     
@@ -369,21 +371,53 @@ classify:
     lw t0, 12(sp)
     lw t1, 16(sp)
     lw t2, 20(sp)
-    addi sp, sp, 24
+    lw t3, 24(sp)
+    addi sp, sp, 28
 # ==============================================================================
 
 
 # ==============================================================================
 #   5.1 Compute and return argmax(o)
 # ==============================================================================
+    addi sp, sp, -28
+    sw a0, 0(sp)
+    sw a1, 4(sp)
+    sw a2, 8(sp)
+    sw t0, 12(sp)
+    sw t1, 16(sp)
+    sw t2, 20(sp)
+    sw t3, 24(sp)
 
+    mv a0, t2
+    mv a1, t3
+    jal argmax
+    mv s9, a0
 
+# ==============================================================================
+#   5.2 If enabled, print argmax(o) and newline
+# ==============================================================================
+    lw a2, 8(sp)
+    
+    bne a2, zero, not_print
+
+    jal print_int
+    li a0, '\n'
+    jal print_char
+
+not_print:
+    lw a0, 0(sp)
+    lw a1, 4(sp)
+    lw a2, 8(sp)
+    lw t0, 12(sp)
+    lw t1, 16(sp)
+    lw t2, 20(sp)
+    lw t3, 24(sp)
+    addi sp, sp, 28
 # ==============================================================================
 
 
-    # If enabled, print argmax(o) and newline
 
-
+    mv a0, s9
 
     lw ra, 0(sp)
     lw s0, 4(sp)
