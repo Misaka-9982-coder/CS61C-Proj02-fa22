@@ -290,7 +290,56 @@ classify:
 # ==============================================================================
 #   4. Compute o = matmul(m1, h)
 # ==============================================================================
+    addi sp, sp, -24
+    sw a0, 0(sp)
+    sw a1, 4(sp)
+    sw a2, 8(sp)
+    sw t0, 12(sp)
+    sw t1, 16(sp)
 
+    lw a1, 0(s4)        # load the m1's row number
+    lw a5, 0(s8)        # load the h's column number
+
+##############################################################
+#   4.1 Allocate the memory for the o
+##############################################################
+    mul t2, a1, a5
+    sw t2, 20(sp)       # number of the elements
+    li t3, 4
+    mul t2, t2, t3
+
+    ebreak
+
+    mv a0, t2
+    jal malloc
+    beq a0, zero, malloc_error
+
+    mv t2, a0           # t2 store the address of o
+##############################################################
+
+    mv a0, s3           # a0 point to m1's address
+    lw a1, 0(s4)        # load the row number
+    lw a2, 0(s5)        # load the column number
+
+    lw t0, 12(sp)
+    mv a3, t0           # a0 point to h's address
+    lw a4, 0(s1)        # load the row number
+    lw a5, 0(s8)        # load the column number
+
+    mv a6, t2
+    sw t2, 20(sp)
+
+    jal matmul
+
+    ebreak
+
+    lw a0, 0(sp)
+    lw a1, 4(sp)
+    lw a2, 8(sp)
+    lw t0, 12(sp)
+    lw t1, 16(sp)
+    lw t2, 20(sp)       # the address of o
+    addi sp, sp, 20
 # ==============================================================================
 
 
