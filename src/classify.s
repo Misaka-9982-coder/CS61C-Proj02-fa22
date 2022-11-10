@@ -146,7 +146,7 @@ classify:
     mv a2, t2
 
     jal read_matrix
-    mv s3, a0                   # use the s3 to store the address of m0
+    mv s3, a0                   # use the s3 to store the address of m1
     lw s4, 16(sp)               # use the s4 to store the row number address
     lw s5, 20(sp)               # use the s5 to store the column number address
 
@@ -339,14 +339,46 @@ classify:
     lw t0, 12(sp)
     lw t1, 16(sp)
     lw t2, 20(sp)       # the address of o
-    addi sp, sp, 20
+    addi sp, sp, 24
+# ==============================================================================
+
+#   m1 x h = m1 x m0 x input
+# ==============================================================================
+#   4.2 Write output matrix o
+# ==============================================================================
+    addi sp, sp, -24
+    sw a0, 0(sp)
+    sw a1, 4(sp)
+    sw a2, 8(sp)
+    sw t0, 12(sp)
+    sw t1, 16(sp)
+    sw t2, 20(sp)
+
+    lw t3, 16(a1)                # a1[4] is the filepath string of output file
+    
+    mv a0, t3
+    mv a1, t2
+    lw a2, 0(s4)
+    lw a3, 0(s8)
+
+    jal write_matrix
+
+    lw a0, 0(sp)
+    lw a1, 4(sp)
+    lw a2, 8(sp)
+    lw t0, 12(sp)
+    lw t1, 16(sp)
+    lw t2, 20(sp)
+    addi sp, sp, 24
 # ==============================================================================
 
 
-    # Write output matrix o
+# ==============================================================================
+#   5.1 Compute and return argmax(o)
+# ==============================================================================
 
 
-    # Compute and return argmax(o)
+# ==============================================================================
 
 
     # If enabled, print argmax(o) and newline
