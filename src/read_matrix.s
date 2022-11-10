@@ -24,12 +24,14 @@
 #   - If you receive an fread error or eof,
 #     this function terminates the program with error code 29
 # ==============================================================================
-#  1. Open the file with read permissions. The filepath is provided as an argument (a0).
-#  2. Read the number of rows and columns from the file (remember: these are the first 
-#     two integers in the file). Store these integers in memory at the provided pointers 
-#     (a1 for rows and a2 for columns).
-#  3. Allocate space on the heap to store the matrix. (Hint: Use the number of rows 
-#     and columns from the previous step to determine how much space to allocate.)
+#  1. Open the file with read permissions. The filepath is provided as an 
+#     argument (a0).
+#  2. Read the number of rows and columns from the file (remember: these are 
+#     the first two integers in the file). Store these integers in memory at the 
+#     provided pointers (a1 for rows and a2 for columns).
+#  3. Allocate space on the heap to store the matrix. (Hint: Use the number of 
+#     rows and columns from the previous step to determine how much space to 
+#     allocate.)
 #  4. Read the matrix from the file to the memory allocated in the previous step.
 #  5. Close the file.
 #  6. Return a pointer to the matrix in memory.
@@ -43,7 +45,7 @@ read_matrix:
 
     # Prologue
 # ==============================================================================
-#   open the file
+#   1. Open the file with read permissions. 
 # ==============================================================================
     addi sp, sp, -8
     sw a1, 0(sp)
@@ -62,7 +64,7 @@ read_matrix:
 
 
 # ==============================================================================
-#   malloc the memory for the number of row and column
+#   2.1 Malloc the memory for the number of row and column
 # ==============================================================================
     addi sp, sp, -12
     sw a0, 0(sp)
@@ -83,7 +85,7 @@ read_matrix:
 
 
 # ==============================================================================
-#   read the number of row and column
+#   2.2 Read the number of rows and columns from the file
 # ==============================================================================
     addi sp, sp, -16
     sw a0, 0(sp)
@@ -113,7 +115,7 @@ read_matrix:
 
 
 # ==============================================================================
-#   malloc the memory
+#   3. Allocate space on the heap to store the matrix.
 # ==============================================================================
     addi sp, sp, -12
     sw a0, 0(sp)
@@ -136,7 +138,7 @@ read_matrix:
 
 
 # ==============================================================================
-#   read the matrix
+#   4. Read the matrix from the file to the memory allocated in the previous step.
 # ==============================================================================
     addi sp, sp, -16
     sw a0, 0(sp)
@@ -159,7 +161,7 @@ read_matrix:
 
 
 # ==============================================================================
-#   close the file
+#   5. Close the file.
 # ==============================================================================
     addi sp, sp, -8
     sw a0, 0(sp)
@@ -181,6 +183,7 @@ read_matrix:
     lw s2, 12(sp)
     addi sp, sp, 16
 
+#   6. Return a pointer to the matrix in memory.
     add a0, t0, zero
 
     jr ra
